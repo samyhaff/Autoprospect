@@ -10,14 +10,18 @@ EMAIL_ADDRESS = os.environ.get('EMAIL_USER')
 EMAIL_PASSWORD = os.environ.get('EMAIL_PASS')
 
 parser = argparse.ArgumentParser(description='Un script pour l\'envoi automatique de mails à une BDD')
+parser.add_argument("sheet", type=str, help='Nom du fichier google sheet à lire')
+parser.add_argument("colonne", type=int, help='colonne du fichier contennant les adresses')
 parser.add_argument("contenu", type=str, help='fichier contenant le mail à envoyer')
 parser.add_argument('-o', '--objet', type=str, help='object du mail', default='')
 args = parser.parse_args()
 
+nom_sheet = args.sheet
+colonne = args.colonne
 contenu = args.contenu
 objet = args.objet
 
-adresses = get_mails()[1:]
+adresses = get_mails(nom_sheet, colonne)[1:]
 
 with open('contenu_mail', 'r') as fichier:
     contenu = fichier.read()
