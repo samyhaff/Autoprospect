@@ -8,6 +8,9 @@ EMAIL_PASSWORD = os.environ.get('EMAIL_PASS')
 
 adresses = get_mails()[1:]
 
+with open('contenu_mail', 'r') as fichier:
+    contenu = fichier.read()
+
 with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
     smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
 
@@ -15,7 +18,7 @@ with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
         msg = EmailMessage()
         msg['Subject'] = 'Message très important'
         msg['From'] =  EMAIL_ADDRESS
+        msg.set_content(contenu)
         msg['To'] = adresse
-        msg.set_content('Bonjour Messieurs Fidèles, le nom de mon père.....')
 
         smtp.send_message(msg)
